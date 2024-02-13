@@ -1,5 +1,33 @@
 import { renderListWithTemplate } from "./utils.mjs";
 
+function handleSearch(products){
+  
+  const searchInput = document.querySelector("[data-search]"); // select the search box
+  const resultList = document.querySelector(".search-result");
+
+  searchInput.addEventListener("input", event =>{
+
+    resultList.innerHTML = '';
+
+    const value = event.target.value.toLowerCase().trim();
+
+    if (value !=="") {
+      products.forEach(product => {
+      const isAlive = product.Name.toLowerCase().includes(value) || product.Brand.Name.toLowerCase().includes(value) || product.Colors[0].ColorName.toLowerCase().includes(value) || product.DescriptionHtmlSimple.toLowerCase().includes(value);
+      if (isAlive) {
+        const li = document.createElement('li');
+        // Add product name text
+        li.textContent = product.Name; 
+        // Append to list
+        resultList.appendChild(li);
+        console.log(product.Name);
+        console.log(isAlive);
+      }
+      });
+    }
+    
+  })
+}
 function CardTemplate(product) {
   return `<li class="product-card">
     <a href="/product_pages/index.html?product=${product.Id}">
@@ -23,6 +51,8 @@ export default class ProductListing {
 
   async init() {
     const products = await this.datasource.getData(this.category);
+
+    handleSearch(products);
     
     renderListWithTemplate(
       CardTemplate,
