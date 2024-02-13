@@ -17,7 +17,10 @@ function handleSearch(products){
       if (isAlive) {
         const li = document.createElement('li');
         // Add product name text
-        li.textContent = product.Name; 
+        li.innerHTML = `<a href="/product_pages/index.html?product=${product.Id}"><img
+          src="${product.Images.PrimarySmall}"
+          alt="Image of ${product.Name}"
+          /><p>${product.Name}</p></a>`;
         // Append to list
         resultList.appendChild(li);
         console.log(product.Name);

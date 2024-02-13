@@ -335,3 +335,31 @@ footer {
   font-size: var(--small-font);
   padding: 1em;
 }
+
+.search-box{
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  margin: 0 auto 2em auto;
+}
+
+.search-box> label{
+  font-size: var(--large-font);
+  margin: 0;
+}
+input[type="search"]{
+  height: 25px;
+  font-size: var(--medium-font);
+}
+.search-result{
+  list-style: none;
+  margin-top: -1.5em;
+}
+.search-result a{
+  display: flex;
+  flex-direction: row;
+  text-decoration: none;
+  color: var(--dark-grey);
+  border: 2px solid var(--light-grey);
+  margin: .5em 0;
+}
