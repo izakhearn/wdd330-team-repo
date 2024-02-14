@@ -171,7 +171,7 @@ export default class CheckoutProcess {
         console.log(res);
         setLocalStorage("so-cart", []); // Clear the cart after purchace
         setLocalStorage("so-cart-total", 0);
-        location.assign("/checkout/success.html"); // Thank the client
+        location.assign("/success/"); // Thank the client
       } catch (err) {
         // remove any previous alerts.
         removeAllAlerts();
