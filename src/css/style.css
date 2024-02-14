@@ -363,3 +363,25 @@ input[type="search"]{
   border: 2px solid var(--light-grey);
   margin: .5em 0;
 }
+.alert__message{
+  border: 1px solid black;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 60%;
+  margin: 3px auto;
+  height: 3rem;
+  background-color: var(--dark-grey);
+  color: white;
+}
+.alert__message span{
+  display: block;
+  padding: .5em 1.5em;
+  margin-right:.5em;
+  cursor: pointer;
+  border: 1px solid var(--primary-color);
+}
+.alert__message p{
+  padding: .5em;
+}

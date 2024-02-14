@@ -1,6 +1,7 @@
 import ExternalServices from "./ExternalServices.mjs"
-import { getLocalStorage } from "./utils.mjs";
-import { renderListWithTemplate } from "./utils.mjs";
+import { getLocalStorage,
+  renderListWithTemplate,
+  alertMessage, setLocalStorage, removeAllAlerts} from "./utils.mjs";
 
 
 function CardTemplate(item) {
@@ -149,22 +150,37 @@ export default class CheckoutProcess {
     // build the data object from the calculated fields, the items in the cart, and the information entered into the form
     const formElement = document.forms["checkout"];
     
+    const checkStatus = formElement.checkValidity();
+    
+    formElement.reportValidity();
+    
+    if(checkStatus){
 
-    const json = formDataToJSON(formElement);
-    // add totals, and item details
-    json.orderDate = new Date();
-    json.orderTotal = this.orderTotal;
-    json.tax = this.tax;
-    json.shipping = this.shipping;
-    json.items = packageItems(this.list);
-    console.log(json);
+      const json = formDataToJSON(formElement);
+      // add totals, and item details
+      json.orderDate = new Date();
+      json.orderTotal = this.orderTotal;
+      json.tax = this.tax;
+      json.shipping = this.shipping;
+      json.items = packageItems(this.list);
+      console.log(json);
 
-    // call the checkout method in our ExternalServices module and send it our data object.
-    try {
-      const res = await services.checkout(json);
-      console.log(res);
-    } catch (err) {
-      console.log(err);
-    }
+      // call the checkout method in our ExternalServices module and send it our data object.
+      try {
+        const res = await services.checkout(json);
+        console.log(res);
+        setLocalStorage("so-cart", []); // Clear the cart after purchace
+        setLocalStorage("so-cart-total", 0);
+        location.assign("/checkout/success.html"); // Thank the client
+      } catch (err) {
+        // remove any previous alerts.
+        removeAllAlerts();
+        for (let message in err.message) {
+          alertMessage(err.message[message]);
+        }
+        console.log(err);
+      }
+    };    
+
   }
 }

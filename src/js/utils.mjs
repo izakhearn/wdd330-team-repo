@@ -55,3 +55,29 @@ export async function loadTemplate(path) {
   const template = await res.text();
   return template;
 }
+
+export function alertMessage(message, scroll = true, duration = 30000) {
+  const alert = document.createElement("div");
+  alert.classList.add("alert");
+  alert.innerHTML = `<div class="alert__message"><p>${message}</p><span>✘</span></div>`;
+
+  alert.addEventListener("click", function (e) {
+    if (e.target.tagName == "SPAN") {
+      main.removeChild(this);
+    }
+  });
+  const main = document.querySelector("main");
+  main.prepend(alert);
+  // make sure the user sees the alert by scrolling to the top of the window
+  if (scroll) window.scrollTo(0, 0);
+
+  //remove the alert automatically after a certain amount of time.
+  // setTimeout(function () {
+  // main.removeChild(alert);
+  // }, duration);
+}
+
+export function removeAllAlerts() {
+  const alerts = document.querySelectorAll(".alert");
+  alerts.forEach((alert) => document.querySelector("main").removeChild(alert));
+}
